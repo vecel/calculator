@@ -37,7 +37,7 @@ body {
     justify-content: center;
 }
 
-.calc-display .curren-operation {
+.calc-display .current-operation {
     justify-content: end;
 }
 
@@ -48,7 +48,7 @@ body {
     border-radius: 12px 12px 0 0;
 }
 
-.curren-operation {
+.current-operation {
     background-color: #eee;
     height: 80%;
     margin: 0 4px 6px 4px;

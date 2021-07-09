@@ -5,11 +5,18 @@ html, body {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
 .calculator {
     display: grid;
-    grid-template: 20vh repeat(5, 10vh) / repeat(4, 10vw);
+    grid-template: 200px repeat(5, 100px) / repeat(4, 125px);
     font-size: x-large;
     background-color: #555;
+    margin-top: 50px;
     padding: 12px;
     width: max-content;
 }

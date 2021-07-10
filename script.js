@@ -14,9 +14,84 @@ const operations = {
 }
 
 let operData = {
-    value1: 0,
+    value1: null,
     value2: null,
     operator: null
+}
+
+for (let button of numberButtons) {
+    button.addEventListener('click', () => {
+        
+        const buttonValue = parseInt(button.textContent);
+        if (operData.operator === null) {
+            operData.value1 = operData.value1 * 10 + buttonValue;
+            updateCurrentDisplay(operData.value1);
+        }
+        if (operData.operator !== null) {
+            operData.value2 = operData.value2 * 10 + buttonValue;
+            updateCurrentDisplay(operData.value2);        
+        }
+        console.log(operData.value1, operData.value2);
+    })
+}
+
+clearButton.addEventListener('click', () => {
+    resetOperData();
+    updateCurrentDisplay();
+    updateLastOperationDisplay();
+    console.log('clear');
+})
+
+equalButton.addEventListener('click', () => {
+    if (operData.value1 === null) {
+        updateCurrentDisplay(0);  
+        return;
+    }
+    if (operData.value2 === null) {
+        updateCurrentDisplay(operData.value1);
+        operData.operator = null;
+        return;
+    }
+    const computeValue = compute();
+    updateCurrentDisplay(computeValue);
+    resetOperData();
+    updateLastOperationDisplay();
+    operData.value1 = computeValue;
+    console .log('equal');
+})
+
+for (let i = 0; i < 4; ++i) {
+    operatorButtons[i].addEventListener('click', () => {
+        let oper;
+        switch (i) {
+            case 0: oper = operations.ADD;      break;
+            case 1: oper = operations.SUBTRACT; break;
+            case 2: oper = operations.MULTIPLY; break;
+            case 3: oper = operations.DIVIDE;   break;
+        }
+        
+        if (operData.value1 === null) {
+            alert('enter a number please');
+            return;
+        }
+
+        if (operData.value2 === null ) {
+            operData.operator = oper;
+            updateLastOperationDisplay();
+            updateCurrentDisplay();
+            return;
+        }
+
+        if (operData.value2 !== null) {
+            operData.value1 = compute();
+            operData.operator = oper;
+            operData.value2 = null;
+            updateLastOperationDisplay();
+            updateCurrentDisplay();
+            return;
+        }
+        
+    })
 }
 
 const compute = () => {
@@ -30,34 +105,20 @@ const compute = () => {
     }
 }
 
-for (let button of numberButtons) {
-    button.addEventListener('click', () => {
-        
-        const buttonValue = parseInt(button.textContent);
-        if (operData.operator === null) {
-            operData.value1 = operData.value1 * 10 + buttonValue;
-            currentOperationDisplay.textContent = operData.value1;
-        }
-        if (operData.operator !== null) {
-            operData.value2 = operData.value2 * 10 + buttonValue;
-            currentOperationDisplay.textContent = operData.value2;
-        }
-        console.log(operData.value1, operData.value2);
-    })
-}
-
-clearButton.addEventListener('click', () => {
-    currentOperationDisplay.textContent = null;
-    lastOperationDisplay.textContent = null;
-    resetOperData();
-})
-
-equalButton.addEventListener('click', () => {
-    currentOperationDisplay.textContent = compute()
-})
-
 const resetOperData = () => {
-    operData.value1 = 0;
+    operData.value1 = null;
     operData.value2 = null;
     operData.operator = null;
+}
+
+const updateCurrentDisplay = (value) => {
+    currentOperationDisplay.textContent = value;
+}
+
+const updateLastOperationDisplay = () => {
+    let displayMsg = '';
+    if (operData.value1 !== null)   displayMsg += operData.value1;
+    if (operData.operator !== null) displayMsg += ' ' + operData.operator;
+    if (operData.value2 !== null)   displayMsg += ' ' + operData.value2;
+    lastOperationDisplay.textContent = displayMsg;
 }
